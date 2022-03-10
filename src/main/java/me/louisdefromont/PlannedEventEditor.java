@@ -32,7 +32,7 @@ public class PlannedEventEditor extends JFrame {
         TimePicker startingTimePicker = new TimePicker();
         TimePicker endingTimePicker = new TimePicker();
 
-        if (plannedEvent == null) {
+        if (plannedEvent.getId() == null) {
             eventNameTextField.setText("Event name");
             datePicker.setDateToToday();
             startingTimePicker.setTime(LocalTime.of(0, 0));

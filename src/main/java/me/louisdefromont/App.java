@@ -10,7 +10,11 @@ import javax.swing.JFrame;
  */
 public class App 
 {
-    public static PlannedEventRepository plannedEventRepository = new PlannedEventRepository("http://localhost:8080");
+    private static String schedulePlannerBackendURL = "http://localhost:8080";
+    public static PlannedEventRepository plannedEventRepository = new PlannedEventRepository(schedulePlannerBackendURL);
+    public static RepeatableEventRepository repeatableEventRepository = new RepeatableEventRepository(schedulePlannerBackendURL);
+    public static ToDoEventRepository toDoEventRepository = new ToDoEventRepository(schedulePlannerBackendURL);
+
     public static void main( String[] args )
     {
         JFrame frame = new JFrame("Schedule");
@@ -23,8 +27,14 @@ public class App
         });
         frame.add(newPlannedEventButton);
         JButton newRepeatableEventButton = new JButton("New repeatable event");
+        newRepeatableEventButton.addActionListener(e -> {
+            new RepeatableEventEditor();
+        });
         frame.add(newRepeatableEventButton);
         JButton newToDoEvenButton = new JButton("New to-do event");
+        newToDoEvenButton.addActionListener(e -> {
+            new ToDoEventEditor();
+        });
         frame.add(newToDoEvenButton);
         frame.setVisible(true);
     }

@@ -36,7 +36,7 @@ public class RepeatableEventEditor extends JFrame {
         TimePicker endingTimePicker = new TimePicker();
         JSpinner repeatIntervalSpinner = new JSpinner();
 
-        if (repeatableEvent == null) {
+        if (repeatableEvent.getId() == null) {
             eventNameTextField.setText("Event name");
             datePicker.setDateToToday();
             startingTimePicker.setTime(LocalTime.of(0, 0));
@@ -81,7 +81,9 @@ public class RepeatableEventEditor extends JFrame {
             repeatableEvent.setStartTime(startingTime);
             repeatableEvent.setEndTime(endingTime);
             repeatableEvent.setRepeatInterval(repeatInterval);
-            
+            App.repeatableEventRepository.createEvent(repeatableEvent);
+            this.dispose();
         });
+        add(saveButton);
     }
 }
