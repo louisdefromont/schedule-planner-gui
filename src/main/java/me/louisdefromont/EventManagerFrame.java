@@ -10,15 +10,15 @@ import javax.swing.JPanel;
 
 public class EventManagerFrame <T extends Event> extends JFrame {
     private EventRepository<T> eventRepository;
-    private Class<EventEditorFrame<T>> eventEditor;
+    private Class<EventEditorFrame<T>> eventEditorFrameClass;
     private JPanel eventsPanel;
 
-    public EventManagerFrame(EventRepository<T> eventRepository, Class eventEditor, Class<T> eventClass) {
-        if (! eventEditor.getClass().equals(eventClass.getClass())) {
+    public EventManagerFrame(EventRepository<T> eventRepository, Class eventEditorFrameClass, Class<T> eventClass) {
+        if (! eventEditorFrameClass.getClass().equals(eventClass.getClass())) {
             throw new IllegalArgumentException("EventEditor class must be of the same type as the event class");
         }
         this.eventRepository = eventRepository;
-        this.eventEditor = eventEditor;
+        this.eventEditorFrameClass = eventEditorFrameClass;
         setTitle("Event manager");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setSize(800, 600);
@@ -34,7 +34,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
         JButton newEventButton = new JButton("New event");
         newEventButton.addActionListener(e -> {
             try {
-                eventEditor.getDeclaredConstructor().newInstance();
+                eventEditorFrameClass.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
                 // TODO Auto-generated catch block
@@ -50,7 +50,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
     }
 
     public void addEventsToPanel() {
-        Iterable<T> events = eventRepository.<T>getAllEvents();
+        Iterable<T> events = eventRepository.getAllEvents();
         if (events == null) {
             return;
         }
