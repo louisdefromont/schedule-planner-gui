@@ -21,6 +21,12 @@ public class App
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        JButton plannedEventsButton = new JButton("Planned events");
+        plannedEventsButton.addActionListener(e -> {
+            new EventManager<PlannedEvent>(plannedEventRepository, PlannedEventEditor.class, PlannedEvent.class);
+        });
+        frame.add(plannedEventsButton);
+
         JButton newPlannedEventButton = new JButton("New planned event");
         newPlannedEventButton.addActionListener(e -> {
             new PlannedEventEditor();

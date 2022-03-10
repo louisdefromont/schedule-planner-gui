@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
-public class PlannedEventEditor extends JFrame {
+public class PlannedEventEditor extends EventEditor<PlannedEvent> {
     PlannedEvent plannedEvent;
     String eventName;
     LocalDate date;
@@ -71,7 +71,7 @@ public class PlannedEventEditor extends JFrame {
             plannedEvent.setName(eventName);
             plannedEvent.setStartTime(date.atTime(startingTime));
             plannedEvent.setEndTime(date.atTime(endingTime));
-            App.plannedEventRepository.createEvent(plannedEvent);
+            App.plannedEventRepository.saveEvent(plannedEvent);
             this.dispose();
         });
         add(createButton);

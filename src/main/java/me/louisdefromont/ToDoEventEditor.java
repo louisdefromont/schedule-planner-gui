@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
-public class ToDoEventEditor extends JFrame {
+public class ToDoEventEditor extends EventEditor<ToDoEvent> {
     private ToDoEvent toDoEvent;
     private String eventName;
     private LocalDateTime dueDateTime;
@@ -62,7 +62,7 @@ public class ToDoEventEditor extends JFrame {
             toDoEvent.setEstimatedMinutes(estimatedMinutes);
             toDoEvent.setCompleted(false);
             System.out.println(toDoEvent);
-            App.toDoEventRepository.createEvent(toDoEvent);
+            App.toDoEventRepository.saveEvent(toDoEvent);
             this.dispose();
         });
         add(saveButton);
