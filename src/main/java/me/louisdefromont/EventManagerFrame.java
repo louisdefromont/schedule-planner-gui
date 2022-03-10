@@ -50,7 +50,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
     }
 
     public void addEventsToPanel() {
-        Iterable<T> events = eventRepository.getAllEvents();
+        Iterable<T> events = eventRepository.<T>getAllEvents();
         if (events == null) {
             return;
         }
