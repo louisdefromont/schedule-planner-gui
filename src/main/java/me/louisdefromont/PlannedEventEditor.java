@@ -28,33 +28,21 @@ public class PlannedEventEditor extends JFrame {
 
     public void addComponenets() {
         JTextField eventNameTextField = new JTextField();
-        if (eventName != null) {
-            eventNameTextField.setText(eventName);
-        } else {
-            eventNameTextField.setText("Event Name");
-        }
-        add(eventNameTextField);
-
         DatePicker datePicker = new DatePicker();
-        if (date != null) {
-            datePicker.setDate(date);
-        } else {
-            datePicker.setDateToToday();
-        }
-        add(datePicker);
-
         TimePicker startingTimePicker = new TimePicker();
-        if (startingTime != null) {
-            startingTimePicker.setTime(startingTime);
-        } else {
-            startingTimePicker.setTime(LocalTime.of(0, 0));
-        }
-
         TimePicker endingTimePicker = new TimePicker();
-        if (endingTime != null) {
-            endingTimePicker.setTime(endingTime);
-        } else {
+
+        if (plannedEvent == null) {
+            eventNameTextField.setText("Event name");
+            datePicker.setDateToToday();
+            startingTimePicker.setTime(LocalTime.of(0, 0));
             endingTimePicker.setTime(LocalTime.of(23, 59));
+
+        } else {
+            eventNameTextField.setText(plannedEvent.getName());
+            datePicker.setDate(plannedEvent.getStartTime().toLocalDate());
+            startingTimePicker.setTime(plannedEvent.getStartTime().toLocalTime());
+            endingTimePicker.setTime(plannedEvent.getEndTime().toLocalTime());
         }
 
         startingTimePicker.addPropertyChangeListener(e -> {
@@ -69,6 +57,8 @@ public class PlannedEventEditor extends JFrame {
             }
         });
 
+        add(eventNameTextField);
+        add(datePicker);
         add(startingTimePicker);
         add(endingTimePicker);
 
@@ -78,14 +68,10 @@ public class PlannedEventEditor extends JFrame {
             date = datePicker.getDate();
             startingTime = startingTimePicker.getTime();
             endingTime = endingTimePicker.getTime();
-            if (! plannedEvent.getEvent().getName().equals(eventName)) {
-                Event event = new Event();
-                event.setName(eventName);
-                plannedEvent.setEvent(event);
-            }
+            plannedEvent.setName(eventName);
             plannedEvent.setStartTime(date.atTime(startingTime));
             plannedEvent.setEndTime(date.atTime(endingTime));
-            App.plannedEventRepository.createPlannedEvent(plannedEvent);
+            App.plannedEventRepository.createEvent(plannedEvent);
             this.dispose();
         });
         add(createButton);
