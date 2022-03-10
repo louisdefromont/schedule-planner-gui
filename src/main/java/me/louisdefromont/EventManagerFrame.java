@@ -70,6 +70,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
 
     public void refreshEventsPanel() {
         eventsPanel.removeAll();
+        eventsPanel.revalidate();
         addEventsToPanel();
     }
 }
