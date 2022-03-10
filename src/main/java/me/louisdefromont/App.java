@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 public class App 
 {
     private static String schedulePlannerBackendURL = "http://localhost:8080";
-    public static PlannedEventRepository plannedEventRepository = new PlannedEventRepository(schedulePlannerBackendURL);
-    public static RepeatableEventRepository repeatableEventRepository = new RepeatableEventRepository(schedulePlannerBackendURL);
-    public static ToDoEventRepository toDoEventRepository = new ToDoEventRepository(schedulePlannerBackendURL);
+    public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class);
+    public static EventRepository<Event> repeatableEventRepository = new EventRepository<Event>(schedulePlannerBackendURL, "/repeatableEvents", Event.class);
+    public static EventRepository<Event> toDoEventRepository = new EventRepository<Event>(schedulePlannerBackendURL, "/toDoEvents", Event.class);
 
     public static void main( String[] args )
     {
@@ -23,7 +23,7 @@ public class App
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         JButton plannedEventsButton = new JButton("Planned events");
         plannedEventsButton.addActionListener(e -> {
-            new EventManager<PlannedEvent>(plannedEventRepository, PlannedEventEditor.class, PlannedEvent.class);
+            new EventManagerFrame<PlannedEvent>(plannedEventRepository, PlannedEventEditor.class, PlannedEvent.class);
         });
         frame.add(plannedEventsButton);
 

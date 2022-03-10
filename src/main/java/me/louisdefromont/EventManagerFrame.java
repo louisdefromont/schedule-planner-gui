@@ -8,12 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class EventManager <T extends Event> extends JFrame {
+public class EventManagerFrame <T extends Event> extends JFrame {
     private EventRepository<T> eventRepository;
-    private Class<EventEditor<T>> eventEditor;
+    private Class<EventEditorFrame<T>> eventEditor;
     private JPanel eventsPanel;
 
-    public EventManager(EventRepository<T> eventRepository, Class eventEditor, Class<T> eventClass) {
+    public EventManagerFrame(EventRepository<T> eventRepository, Class eventEditor, Class<T> eventClass) {
         if (! eventEditor.getClass().equals(eventClass.getClass())) {
             throw new IllegalArgumentException("EventEditor class must be of the same type as the event class");
         }
@@ -50,7 +50,11 @@ public class EventManager <T extends Event> extends JFrame {
     }
 
     public void addEventsToPanel() {
-        eventRepository.getAllEvents().forEach((T event) -> {
+        Iterable<T> events = eventRepository.getAllEvents();
+        if (events == null) {
+            return;
+        }
+        events.forEach((T event) -> {
             JPanel eventPanel = new JPanel();
             eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.X_AXIS));
             JLabel eventName = new JLabel(event.getName());

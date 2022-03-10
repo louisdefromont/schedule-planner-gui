@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
-public class RepeatableEventEditor extends EventEditor<RepeatableEvent> {
+public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
     RepeatableEvent repeatableEvent;
     String eventName;
     LocalDate date;
