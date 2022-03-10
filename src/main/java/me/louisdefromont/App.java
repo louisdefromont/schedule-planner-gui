@@ -1,8 +1,12 @@
 package me.louisdefromont;
 
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import kong.unirest.GenericType;
 
 /**
  * Hello world!
@@ -11,9 +15,9 @@ import javax.swing.JFrame;
 public class App 
 {
     private static String schedulePlannerBackendURL = "http://localhost:8080";
-    public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class);
-    public static EventRepository<Event> repeatableEventRepository = new EventRepository<Event>(schedulePlannerBackendURL, "/repeatableEvents", Event.class);
-    public static EventRepository<Event> toDoEventRepository = new EventRepository<Event>(schedulePlannerBackendURL, "/toDoEvents", Event.class);
+    public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class, new GenericType<List<PlannedEvent>>(){});
+    public static EventRepository<RepeatableEvent> repeatableEventRepository = new EventRepository<RepeatableEvent>(schedulePlannerBackendURL, "/repeatableEvents", RepeatableEvent.class, new GenericType<List<RepeatableEvent>>(){});
+    public static EventRepository<ToDoEvent> toDoEventRepository = new EventRepository<ToDoEvent>(schedulePlannerBackendURL, "/toDoEvents", ToDoEvent.class, new GenericType<List<ToDoEvent>>(){});
 
     public static void main( String[] args )
     {
@@ -27,21 +31,18 @@ public class App
         });
         frame.add(plannedEventsButton);
 
-        JButton newPlannedEventButton = new JButton("New planned event");
-        newPlannedEventButton.addActionListener(e -> {
-            new PlannedEventEditor();
+        JButton repeatableEventsButton = new JButton("Repeatable events");
+        repeatableEventsButton.addActionListener(e -> {
+            new EventManagerFrame<RepeatableEvent>(repeatableEventRepository, RepeatableEventEditor.class, RepeatableEvent.class);
         });
-        frame.add(newPlannedEventButton);
-        JButton newRepeatableEventButton = new JButton("New repeatable event");
-        newRepeatableEventButton.addActionListener(e -> {
-            new RepeatableEventEditor();
+        frame.add(repeatableEventsButton);
+
+        JButton toDoEventsButton = new JButton("To do events");
+        toDoEventsButton.addActionListener(e -> {
+            new EventManagerFrame<ToDoEvent>(toDoEventRepository, ToDoEventEditor.class, ToDoEvent.class);
         });
-        frame.add(newRepeatableEventButton);
-        JButton newToDoEvenButton = new JButton("New to-do event");
-        newToDoEvenButton.addActionListener(e -> {
-            new ToDoEventEditor();
-        });
-        frame.add(newToDoEvenButton);
+        frame.add(toDoEventsButton);
+        
         frame.setVisible(true);
     }
 }
