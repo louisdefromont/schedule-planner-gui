@@ -49,20 +49,6 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
             repeatIntervalSpinner.setValue(getEvent().getRepeatInterval());
         }
 
-        
-
-        startingTimePicker.addPropertyChangeListener(e -> {
-            if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
-                startingTimePicker.setTime(endingTimePicker.getTime());
-            }
-        });
-
-        endingTimePicker.addPropertyChangeListener(e -> {
-            if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
-                endingTimePicker.setTime(startingTimePicker.getTime());
-            }
-        });
-
         add(eventNameTextField);
         add(datePicker);
         add(startingTimePicker);

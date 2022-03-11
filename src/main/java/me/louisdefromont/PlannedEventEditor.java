@@ -52,18 +52,6 @@ public class PlannedEventEditor extends EventEditorFrame<PlannedEvent> {
             }
         }
 
-        startingTimePicker.addPropertyChangeListener(e -> {
-            if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
-                endingTimePicker.setTime(startingTimePicker.getTime());
-            }
-        });
-
-        endingTimePicker.addPropertyChangeListener(e -> {
-            if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
-                endingTimePicker.setTime(startingTimePicker.getTime());
-            }
-        });
-
         add(eventNameTextField);
         add(datePicker);
         add(startingTimePicker);
