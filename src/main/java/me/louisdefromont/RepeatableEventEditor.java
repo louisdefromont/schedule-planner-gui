@@ -12,7 +12,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
 public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
-    RepeatableEvent repeatableEvent;
     String eventName;
     LocalDate date;
     LocalTime startingTime;
@@ -20,14 +19,14 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
     int repeatInterval;
 
     public RepeatableEventEditor() {
-        this.repeatableEvent = new RepeatableEvent();
-        setTitle("Repeatable event creator");
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        setSize(800, 600);
-        setVisible(true);
-        addComponenets();
+        super(RepeatableEvent.class);
     }
 
+    public RepeatableEventEditor(RepeatableEvent event) {
+        super(event);
+    }
+
+    @Override
     public void addComponenets() {
         JTextField eventNameTextField = new JTextField();
         DatePicker datePicker = new DatePicker();
@@ -35,7 +34,7 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
         TimePicker endingTimePicker = new TimePicker();
         JSpinner repeatIntervalSpinner = new JSpinner();
 
-        if (repeatableEvent.getId() == null) {
+        if (getEvent().getId() == null) {
             eventNameTextField.setText("Event name");
             datePicker.setDateToToday();
             startingTimePicker.setTime(LocalTime.of(0, 0));
@@ -43,11 +42,11 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
             repeatIntervalSpinner.setValue(1);
 
         } else {
-            eventNameTextField.setText(repeatableEvent.getName());
-            datePicker.setDate(repeatableEvent.getStartDate());
-            startingTimePicker.setTime(repeatableEvent.getStartTime());
-            endingTimePicker.setTime(repeatableEvent.getEndTime());
-            repeatIntervalSpinner.setValue(repeatableEvent.getRepeatInterval());
+            eventNameTextField.setText(getEvent().getName());
+            datePicker.setDate(getEvent().getStartDate());
+            startingTimePicker.setTime(getEvent().getStartTime());
+            endingTimePicker.setTime(getEvent().getEndTime());
+            repeatIntervalSpinner.setValue(getEvent().getRepeatInterval());
         }
 
         
@@ -75,12 +74,12 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
             startingTime = startingTimePicker.getTime();
             endingTime = endingTimePicker.getTime();
             repeatInterval = (int) repeatIntervalSpinner.getValue();
-            repeatableEvent.setName(eventName);
-            repeatableEvent.setStartDate(date);
-            repeatableEvent.setStartTime(startingTime);
-            repeatableEvent.setEndTime(endingTime);
-            repeatableEvent.setRepeatInterval(repeatInterval);
-            App.repeatableEventRepository.saveEvent(repeatableEvent);
+            getEvent().setName(eventName);
+            getEvent().setStartDate(date);
+            getEvent().setStartTime(startingTime);
+            getEvent().setEndTime(endingTime);
+            getEvent().setRepeatInterval(repeatInterval);
+            App.repeatableEventRepository.saveEvent(getEvent());
             this.dispose();
         });
         add(saveButton);

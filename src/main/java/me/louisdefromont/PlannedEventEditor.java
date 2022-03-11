@@ -11,37 +11,45 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
 public class PlannedEventEditor extends EventEditorFrame<PlannedEvent> {
-    PlannedEvent plannedEvent;
     String eventName;
     LocalDate date;
     LocalTime startingTime;
     LocalTime endingTime;
     public PlannedEventEditor() {
-        this.plannedEvent = new PlannedEvent();
-        setTitle("Planned event creator");
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        setSize(800, 600);
-        setVisible(true);
-        addComponenets();
+        super(PlannedEvent.class);
     }
 
+    public PlannedEventEditor(PlannedEvent event) {
+        super(event);
+    }
+
+    @Override
     public void addComponenets() {
         JTextField eventNameTextField = new JTextField();
         DatePicker datePicker = new DatePicker();
         TimePicker startingTimePicker = new TimePicker();
         TimePicker endingTimePicker = new TimePicker();
 
-        if (plannedEvent.getId() == null) {
+        if (getEvent().getId() == null) {
             eventNameTextField.setText("Event name");
             datePicker.setDateToToday();
             startingTimePicker.setTime(LocalTime.of(0, 0));
             endingTimePicker.setTime(LocalTime.of(23, 59));
 
         } else {
-            eventNameTextField.setText(plannedEvent.getName());
-            datePicker.setDate(plannedEvent.getStartTime().toLocalDate());
-            startingTimePicker.setTime(plannedEvent.getStartTime().toLocalTime());
-            endingTimePicker.setTime(plannedEvent.getEndTime().toLocalTime());
+            eventNameTextField.setText(getEvent().getName());
+            if (getEvent().getStartTime() == null) {
+                datePicker.setDate(LocalDate.now());
+                startingTimePicker.setTime(LocalTime.of(0, 0));
+            } else {
+                datePicker.setDate(getEvent().getStartTime().toLocalDate());
+                startingTimePicker.setTime(getEvent().getStartTime().toLocalTime());
+            }
+            if (getEvent().getEndTime() == null) {
+                endingTimePicker.setTime(LocalTime.of(23, 59));
+            } else {
+                endingTimePicker.setTime(getEvent().getEndTime().toLocalTime());
+            }
         }
 
         startingTimePicker.addPropertyChangeListener(e -> {
@@ -67,10 +75,10 @@ public class PlannedEventEditor extends EventEditorFrame<PlannedEvent> {
             date = datePicker.getDate();
             startingTime = startingTimePicker.getTime();
             endingTime = endingTimePicker.getTime();
-            plannedEvent.setName(eventName);
-            plannedEvent.setStartTime(date.atTime(startingTime));
-            plannedEvent.setEndTime(date.atTime(endingTime));
-            App.plannedEventRepository.saveEvent(plannedEvent);
+            getEvent().setName(eventName);
+            getEvent().setStartTime(date.atTime(startingTime));
+            getEvent().setEndTime(date.atTime(endingTime));
+            App.plannedEventRepository.saveEvent(getEvent());
             this.dispose();
         });
         add(createButton);

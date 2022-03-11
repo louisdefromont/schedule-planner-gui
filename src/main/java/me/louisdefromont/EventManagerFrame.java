@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 public class EventManagerFrame <T extends Event> extends JFrame {
     private EventRepository<T> eventRepository;
+    private Class<T> eventClass;
     private Class<EventEditorFrame<T>> eventEditorFrameClass;
     private JPanel eventsPanel;
 
@@ -18,6 +19,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
             throw new IllegalArgumentException("EventEditor class must be of the same type as the event class");
         }
         this.eventRepository = eventRepository;
+        this.eventClass = eventClass;
         this.eventEditorFrameClass = eventEditorFrameClass;
         setTitle("Event manager");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -31,6 +33,8 @@ public class EventManagerFrame <T extends Event> extends JFrame {
         eventsPanel.setLayout(new BoxLayout(eventsPanel, BoxLayout.Y_AXIS));
         addEventsToPanel();
         add(eventsPanel);
+        eventsPanel.revalidate();
+        eventsPanel.repaint();
         JButton newEventButton = new JButton("New event");
         newEventButton.addActionListener(e -> {
             try {
@@ -55,16 +59,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
             return;
         }
         events.forEach((T event) -> {
-            JPanel eventPanel = new JPanel();
-            eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.X_AXIS));
-            JLabel eventName = new JLabel(event.getName());
-            JButton editButton = new JButton("Edit");
-            JButton deleteButton = new JButton("Delete");
-            eventPanel.add(eventName);
-            eventPanel.add(editButton);
-            eventPanel.add(deleteButton);
-
-            eventsPanel.add(eventPanel);
+            eventsPanel.add(new EventActionsPanel(event, eventClass, eventEditorFrameClass));
         });
     }
 
