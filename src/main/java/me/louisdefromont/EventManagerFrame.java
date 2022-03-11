@@ -59,7 +59,7 @@ public class EventManagerFrame <T extends Event> extends JFrame {
             return;
         }
         events.forEach((T event) -> {
-            eventsPanel.add(new EventActionsPanel(event, eventClass, eventEditorFrameClass));
+            eventsPanel.add(new EventActionsPanel(event, eventClass, eventEditorFrameClass, eventRepository));
         });
     }
 

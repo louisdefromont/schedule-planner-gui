@@ -11,11 +11,13 @@ public class EventActionsPanel<T extends Event> extends JPanel {
     private T event;
     private Class<T> eventClass;
     private Class<EventEditorFrame<T>> eventEditorFrameClass;
+    private EventRepository<T> eventRepository;
 
-    public EventActionsPanel(T event, Class<T> eventClass, Class eventEditorFrameClass) {
+    public EventActionsPanel(T event, Class<T> eventClass, Class eventEditorFrameClass, EventRepository<T> eventRepository) {
         this.event = event;
         this.eventClass = eventClass;
         this.eventEditorFrameClass = eventEditorFrameClass;
+        this.eventRepository = eventRepository;
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -31,6 +33,10 @@ public class EventActionsPanel<T extends Event> extends JPanel {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
+        });
+
+        deleteButton.addActionListener(e -> {
+            eventRepository.deleteEvent(event);
         });
 
         add(eventName);
