@@ -53,11 +53,13 @@ public class RepeatableEventEditor extends EventEditorFrame<RepeatableEvent> {
 
         startingTimePicker.addPropertyChangeListener(e -> {
             if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
+                startingTimePicker.setTime(endingTimePicker.getTime());
             }
         });
 
         endingTimePicker.addPropertyChangeListener(e -> {
             if (startingTimePicker.getTime().isAfter(endingTimePicker.getTime())) {
+                endingTimePicker.setTime(startingTimePicker.getTime());
             }
         });
 

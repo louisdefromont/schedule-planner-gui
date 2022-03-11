@@ -18,6 +18,7 @@ public class App
     public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class, new GenericType<List<PlannedEvent>>(){});
     public static EventRepository<RepeatableEvent> repeatableEventRepository = new EventRepository<RepeatableEvent>(schedulePlannerBackendURL, "/repeatableEvents", RepeatableEvent.class, new GenericType<List<RepeatableEvent>>(){});
     public static EventRepository<ToDoEvent> toDoEventRepository = new EventRepository<ToDoEvent>(schedulePlannerBackendURL, "/toDoEvents", ToDoEvent.class, new GenericType<List<ToDoEvent>>(){});
+    private static RemoteScheduleGenerator remoteScheduleGenerator = new RemoteScheduleGenerator(schedulePlannerBackendURL);
 
     public static void main( String[] args )
     {
@@ -42,6 +43,12 @@ public class App
             new EventManagerFrame<ToDoEvent>(toDoEventRepository, ToDoEventEditor.class, ToDoEvent.class);
         });
         frame.add(toDoEventsButton);
+
+        JButton viewScheduleButton = new JButton("View schedule");
+        viewScheduleButton.addActionListener(e -> {
+            new ScheduleFrame(remoteScheduleGenerator.generate());
+        });
+        frame.add(viewScheduleButton);
         
         frame.setVisible(true);
     }
