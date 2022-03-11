@@ -1,5 +1,6 @@
 package me.louisdefromont;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -15,9 +16,9 @@ import kong.unirest.GenericType;
 public class App 
 {
     private static String schedulePlannerBackendURL = "http://localhost:8080";
-    public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class, new GenericType<List<PlannedEvent>>(){});
-    public static EventRepository<RepeatableEvent> repeatableEventRepository = new EventRepository<RepeatableEvent>(schedulePlannerBackendURL, "/repeatableEvents", RepeatableEvent.class, new GenericType<List<RepeatableEvent>>(){});
-    public static EventRepository<ToDoEvent> toDoEventRepository = new EventRepository<ToDoEvent>(schedulePlannerBackendURL, "/toDoEvents", ToDoEvent.class, new GenericType<List<ToDoEvent>>(){});
+    public static EventRepository<PlannedEvent> plannedEventRepository = new EventRepository<PlannedEvent>(schedulePlannerBackendURL, "/plannedEvents", PlannedEvent.class);
+    public static EventRepository<RepeatableEvent> repeatableEventRepository = new EventRepository<RepeatableEvent>(schedulePlannerBackendURL, "/repeatableEvents", RepeatableEvent.class);
+    public static EventRepository<ToDoEvent> toDoEventRepository = new EventRepository<ToDoEvent>(schedulePlannerBackendURL, "/toDoEvents", ToDoEvent.class);
     private static RemoteScheduleGenerator remoteScheduleGenerator = new RemoteScheduleGenerator(schedulePlannerBackendURL);
 
     public static void main( String[] args )

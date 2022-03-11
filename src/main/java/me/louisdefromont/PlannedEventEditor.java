@@ -38,17 +38,17 @@ public class PlannedEventEditor extends EventEditorFrame<PlannedEvent> {
 
         } else {
             eventNameTextField.setText(getEvent().getName());
-            if (getEvent().getStartTime() == null) {
+            if (getEvent().getStartDateTime() == null) {
                 datePicker.setDate(LocalDate.now());
                 startingTimePicker.setTime(LocalTime.of(0, 0));
             } else {
-                datePicker.setDate(getEvent().getStartTime().toLocalDate());
-                startingTimePicker.setTime(getEvent().getStartTime().toLocalTime());
+                datePicker.setDate(getEvent().getStartDateTime().toLocalDate());
+                startingTimePicker.setTime(getEvent().getStartDateTime().toLocalTime());
             }
-            if (getEvent().getEndTime() == null) {
+            if (getEvent().getEndDateTime() == null) {
                 endingTimePicker.setTime(LocalTime.of(23, 59));
             } else {
-                endingTimePicker.setTime(getEvent().getEndTime().toLocalTime());
+                endingTimePicker.setTime(getEvent().getEndDateTime().toLocalTime());
             }
         }
 
@@ -76,8 +76,8 @@ public class PlannedEventEditor extends EventEditorFrame<PlannedEvent> {
             startingTime = startingTimePicker.getTime();
             endingTime = endingTimePicker.getTime();
             getEvent().setName(eventName);
-            getEvent().setStartTime(date.atTime(startingTime));
-            getEvent().setEndTime(date.atTime(endingTime));
+            getEvent().setStartDateTime(date.atTime(startingTime));
+            getEvent().setEndDateTime(date.atTime(endingTime));
             App.plannedEventRepository.saveEvent(getEvent());
             this.dispose();
         });

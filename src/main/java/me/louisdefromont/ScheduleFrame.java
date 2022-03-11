@@ -68,9 +68,9 @@ public class ScheduleFrame extends JFrame {
                 case 0:
                     return currentScheduleDate.getEvents().get(rowIndex).getName();
                 case 1:
-                    return currentScheduleDate.getEvents().get(rowIndex).getStartTime().toLocalTime();
+                    return currentScheduleDate.getEvents().get(rowIndex).getStartDateTime().toLocalTime();
                 case 2:
-                    return currentScheduleDate.getEvents().get(rowIndex).getEndTime().toLocalTime();
+                    return currentScheduleDate.getEvents().get(rowIndex).getEndDateTime().toLocalTime();
                 default:
                     return null;
                 }
